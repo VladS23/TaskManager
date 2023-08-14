@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "github.com/jackc/pgx"
 	"github.com/spf13/viper"
 	"log"
 	todo "myTaskManager"
@@ -10,9 +11,6 @@ import (
 )
 
 func main() {
-	if err := initConfig(); err != nil {
-		log.Fatalf("error init config %s", err.Error())
-	}
 	repos := repository.NewRepositoty()
 	services := service.NewService(repos)
 	handler := handler.NewHandler(services)
