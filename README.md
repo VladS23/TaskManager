@@ -1,8 +1,9 @@
 # TaskManager
 
- Бэкенд для приложения менеджера задач
+Backend for the Task Manager application
 
- Используемый стек:
- * GO
- * PostgresSql
- * Swagger
+The stack used:
+
+* GO
+* PostgresSql
+* Swagger
