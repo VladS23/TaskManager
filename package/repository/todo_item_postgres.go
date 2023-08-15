@@ -55,3 +55,8 @@ func (r *TodoItemPostgres) GetById(userId, itemId int) (todo.TodoItem, error) {
 	}
 	return item, nil
 }
+func (r *TodoItemPostgres) Delete(userId, ItemId int) error {
+	query := fmt.Sprintf("DELETE FROM %s li USING %s li, %s ul WHERE tl.id=li.item_id AND li.list_id=ul.list_id AND ul.user.id=$1 AND tl.id=$2", todoItemsTable, listsItemsTable, userListTable)
+	_, err := r.db.Exec(query, userId, ItemId)
+	return err
+}
