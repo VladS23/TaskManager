@@ -12,7 +12,7 @@ import (
 
 const (
 	salt       = "pdnvtwfjeefufugbvoijyqsxqz"
-	signingKey = "uclqpcmhc,mwhcahe rldskcnbmd,oiwffn,zgfuuyrffm38475"
+	signingKey = "qrkjk#4#%35FSFJlja#4353KSFjH"
 )
 
 type AuthService struct {
@@ -27,15 +27,15 @@ func NewAuthService(repo repository.Authorization) *AuthService {
 	return &AuthService{repo: repo}
 }
 func (s *AuthService) CreateUser(user todo.User) (int, error) {
-	user.Password = s.generatePasswordHash(user.Password)
+	user.Password = generatePasswordHash(user.Password)
 	return s.repo.CreateUser(user)
 }
 func (s *AuthService) GenerateToken(username, password string) (string, error) {
-	user, err := s.repo.GetUser(username, s.generatePasswordHash(password))
+	user, err := s.repo.GetUser(username, generatePasswordHash(password))
 	if err != nil {
 		return "", err
 	}
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, &tokenClaims{
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &tokenClaims{
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(12 * time.Hour).Unix(),
 			IssuedAt:  time.Now().Unix(),
@@ -61,7 +61,7 @@ func (s *AuthService) ParseToken(accesToken string) (int, error) {
 	}
 	return claims.UserId, nil
 }
-func (s *AuthService) generatePasswordHash(password string) string {
+func generatePasswordHash(password string) string {
 	hash := sha1.New()
 	hash.Write([]byte(password))
 
