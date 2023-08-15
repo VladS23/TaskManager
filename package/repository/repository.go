@@ -17,6 +17,7 @@ type TodoList interface {
 	Update(userId int, listId int, input todo.UpdateListInput) error
 }
 type TodoItem interface {
+	Create(listId int, item todo.TodoItem) (int, error)
 }
 type Repository struct {
 	Authorization
