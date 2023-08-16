@@ -19,13 +19,16 @@ func NewHandler(services *service.Service) *Handler {
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	auth := router.Group("/auth")
 	{
 		auth.POST("/sign-up", h.signUp)
 		auth.POST("/sign-in", h.signIn)
 	}
+
 	api := router.Group("/api", h.userIdentity)
 	{
+
 		lists := api.Group("/lists")
 		{
 			lists.POST("/", h.createList)
@@ -39,6 +42,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 				items.GET("/", h.getAllItems)
 			}
 		}
+
 		items := api.Group("items")
 		{
 			items.GET("/:id", h.getItemById)
@@ -46,5 +50,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			items.DELETE("/:id", h.deleteItem)
 		}
 	}
+
 	return router
 }

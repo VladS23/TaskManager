@@ -27,6 +27,7 @@ import (
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization
+
 func main() {
 	logrus.SetFormatter(new(logrus.JSONFormatter))
 
@@ -60,6 +61,7 @@ func main() {
 			logrus.Fatalf("error running server: %s", err.Error())
 		}
 	}()
+
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
 	<-quit
