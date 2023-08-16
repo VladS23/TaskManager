@@ -8,7 +8,7 @@ import (
 )
 
 func (h *Handler) userIdentity(c *gin.Context) {
-	header := c.GetHeader("Authorizaion")
+	header := c.GetHeader("Authorization")
 	if header == "" {
 		newErrorResponce(c, http.StatusUnauthorized, "empty auth header")
 		return
@@ -26,15 +26,15 @@ func (h *Handler) userIdentity(c *gin.Context) {
 	c.Set("userId", userId)
 }
 func getUserId(c *gin.Context) (int, error) {
-	id, ok := c.Get("userID")
+	id, ok := c.Get("userId")
 	if !ok {
 		newErrorResponce(c, http.StatusInternalServerError, "users id not found")
-		return 0, errors.New("uer not found")
+		return 0, errors.New("user not found")
 	}
 	idInt, ok := id.(int)
 	if !ok {
 		newErrorResponce(c, http.StatusInternalServerError, "users id not found")
-		return 0, errors.New("uer not found")
+		return 0, errors.New("user not found")
 	}
 	return idInt, nil
 }

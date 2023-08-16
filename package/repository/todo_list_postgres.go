@@ -26,7 +26,7 @@ func (r *TodoListPostgres) Create(userId int, list todo.TodoList) (int, error) {
 		tx.Rollback()
 		return 0, err
 	}
-	createUsersListQuery := fmt.Sprintf("INSERT INTO %s (ussers_id, list_id) VALUES ($1, $2)", userListTable)
+	createUsersListQuery := fmt.Sprintf("INSERT INTO %s (user_id, list_id) VALUES ($1, $2)", userListTable)
 	_, err = tx.Exec(createUsersListQuery, userId, id)
 	if err != nil {
 		tx.Rollback()
@@ -36,21 +36,21 @@ func (r *TodoListPostgres) Create(userId int, list todo.TodoList) (int, error) {
 }
 func (r *TodoListPostgres) GetAll(userId int) ([]todo.TodoList, error) {
 	var lists []todo.TodoList
-	query := fmt.Sprintf("SELECT tl.id, tl.title, tl.description FROM %s tl "+
+	query := fmt.Sprintf("SELECT tl.id, tl.title, tl.descriptions FROM %s tl "+
 		"INNER JOIN %s ul on tl.id=ul.List_id WHERE ul.user_id=$1", todoListTable, userListTable)
 	err := r.db.Select(&lists, query, userId)
 	return lists, err
 }
 func (r *TodoListPostgres) GetById(userId, listId int) (todo.TodoList, error) {
 	var list todo.TodoList
-	query := fmt.Sprintf("SELECT tl.id, tl.title, tl.description FROM %s tl "+
-		"INNER JOIN %s ul on tl.id=ul.List_id WHERE ul.user_id=$1"+
+	query := fmt.Sprintf("SELECT tl.id, tl.title, tl.descriptions FROM %s tl "+
+		"INNER JOIN %s ul on tl.id=ul.List_id WHERE ul.user_id=$1 "+
 		"AND ul.list_id=$2", todoListTable, userListTable)
 	err := r.db.Get(&list, query, userId, listId)
 	return list, err
 }
 func (r *TodoListPostgres) Delete(userId, listId int) error {
-	query := fmt.Sprintf("DELETE FROM %s tl USING %s ul WHERE tl.id=ul.list_id=$1 AND ul.list_id=$2", todoListTable, userListTable)
+	query := fmt.Sprintf("DELETE FROM %s tl USING %s ul WHERE tl.id=ul.list_id AND ul.user_id=$1 AND ul.list_id=$2", todoListTable, userListTable)
 	_, err := r.db.Exec(query, userId, listId)
 	return err
 }
@@ -64,7 +64,7 @@ func (r *TodoListPostgres) Update(userId int, listId int, input todo.UpdateListI
 		argId++
 	}
 	if input.Description != nil {
-		setValues = append(setValues, fmt.Sprintf("description=$%d", argId))
+		setValues = append(setValues, fmt.Sprintf("descriptions=$%d", argId))
 		args = append(args, *input.Description)
 		argId++
 	}

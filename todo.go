@@ -5,7 +5,7 @@ import "errors"
 type TodoList struct {
 	Id          int    `json:"id" db:"id"`
 	Title       string `json:"title" db:"title" binding:"required"`
-	Description string `json:"description" db:"description"`
+	Description string `json:"description" db:"descriptions"`
 }
 type UserList struct {
 	Id     int
