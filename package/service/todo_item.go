@@ -1,7 +1,7 @@
 package service
 
 import (
-	todo "myTaskManager"
+	todo "myTaskManager/models"
 	"myTaskManager/package/repository"
 )
 

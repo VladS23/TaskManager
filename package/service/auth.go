@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
-	todo "myTaskManager"
+	todo "myTaskManager/models"
 	"myTaskManager/package/repository"
 	"time"
 )

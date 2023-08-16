@@ -2,7 +2,7 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
-	todo "myTaskManager"
+	todo "myTaskManager/models"
 	"net/http"
 )
 

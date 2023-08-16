@@ -8,9 +8,10 @@ import (
 	"github.com/spf13/viper"
 	_ "github.com/swaggo/files"
 	_ "github.com/swaggo/gin-swagger"
-	todo "myTaskManager"
+	todo "myTaskManager/models"
 	"myTaskManager/package/handler"
 	"myTaskManager/package/repository"
+	"myTaskManager/package/repository/postgres"
 	"myTaskManager/package/service"
 	"os"
 	"os/signal"
@@ -39,7 +40,7 @@ func main() {
 		logrus.Fatalf("error load env variables: %s", err.Error())
 	}
 
-	db, err := repository.NewPostgresDb(repository.Config{
+	db, err := postgres.NewPostgresDb(postgres.Config{
 		Host:     viper.GetString("db.host"),
 		Port:     viper.GetString("db.port"),
 		Username: viper.GetString("db.username"),

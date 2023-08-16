@@ -1,9 +1,9 @@
-package repository
+package postgres
 
 import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
-	todo "myTaskManager"
+	todo "myTaskManager/models"
 )
 
 type AuthPostgres struct {
